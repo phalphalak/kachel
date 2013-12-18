@@ -9,7 +9,6 @@
   (coordinate->field [this coordinate])
   (valid-coordinate? [this coordinate])
   (in-boundary? [this coordinate])
-  (directions [this])
   (direction->coordinate-offset [this direction])
   (neighbours-coordinates [this position])
   (neighbours [this position])
@@ -34,7 +33,6 @@
          (and (>= y 0) (< y height))))
   (coordinate->field [this coordinate]
     (get fields (square-grid-coordinate->index this coordinate)))
-  (directions [_] #{:up :down :left :right})
   (direction->coordinate-offset [_ direction]
     (case direction
       :up    [ 0 -1]
