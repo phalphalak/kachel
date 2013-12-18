@@ -1,9 +1,5 @@
 (ns kachel.core)
 
-(defn- xor [a b]
-  (and (or a b)
-       (not (and a b))))
-
 (defn- boolean? [b]
   (= (boolean b) b))
 
