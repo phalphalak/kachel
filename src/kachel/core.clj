@@ -5,7 +5,7 @@
 
 (def square-grid-directions #{:up :down :left :right})
 
-(defprotocol Grid
+(defprotocol SquareGrid
   (width [this])
   (height [this])
   (coordinate->field [this coordinate])
@@ -23,8 +23,8 @@
         y' (mod y (.height this))]
     (+ x' (* y' (.width this)))))
 
-(deftype SquareGrid [width height fields wrap-horizontal? wrap-vertical?]
-  Grid
+(deftype DenseSquareGrid [width height fields wrap-horizontal? wrap-vertical?]
+  SquareGrid
   (width [_] width)
   (height [_] height)
   (valid-coordinate? [_ [x y]]
@@ -63,17 +63,17 @@
           (neighbours-coordinates this position))))
 
 
-(defn square-grid [& {:keys [width
-                             height
-                             default
-                             default-fn
-                             wrap-vertical?
-                             wrap-horizontal?]
-                      :or {default nil
-                           default-fn nil
-                           wrap-vertical? false
-                           wrap-horizontal? false}
-                      :as args}]
+(defn dense-square-grid [& {:keys [width
+                                   height
+                                   default
+                                   default-fn
+                                   wrap-vertical?
+                                   wrap-horizontal?]
+                            :or {default nil
+                                 default-fn nil
+                                 wrap-vertical? false
+                                 wrap-horizontal? false}
+                            :as args}]
   (assert (and (every? integer? [width height])
                (every? boolean? [wrap-vertical? wrap-horizontal?])
                (not (and (contains? args :default)
@@ -84,8 +84,8 @@
                              x (range width)]
                          {:x x :y y :index (+ x (* y width))}))
                  (vec (take (* width height) (repeat default))))]
-    (SquareGrid. width
-                 height
-                 fields
-                 wrap-horizontal?
-                 wrap-vertical?)))
+    (DenseSquareGrid. width
+                      height
+                      fields
+                      wrap-horizontal?
+                      wrap-vertical?)))

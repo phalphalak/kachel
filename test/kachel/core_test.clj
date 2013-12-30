@@ -2,9 +2,9 @@
   (:require [clojure.test :refer :all]
             [kachel.core :refer :all]))
 
-(deftest square-grid-test
-  (let [grid (square-grid :width 10 :height 5 :default-fn identity)
-        wrapped-grid (square-grid :width 10 :height 5
+(deftest dense-square-grid-test
+  (let [grid (dense-square-grid :width 10 :height 5 :default-fn identity)
+        wrapped-grid (dense-square-grid :width 10 :height 5
                                   :wrap-horizontal? true
                                   :wrap-vertical? true
                                   :default-fn identity)]
