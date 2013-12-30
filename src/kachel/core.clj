@@ -6,6 +6,8 @@
 (def square-grid-directions #{:up :down :left :right})
 
 (defprotocol Grid
+  (width [this])
+  (height [this])
   (coordinate->field [this coordinate])
   (valid-coordinate? [this coordinate])
   (in-boundary? [this coordinate])
@@ -23,6 +25,8 @@
 
 (deftype SquareGrid [width height fields wrap-horizontal? wrap-vertical?]
   Grid
+  (width [_] width)
+  (height [_] height)
   (valid-coordinate? [_ [x y]]
     (and (or wrap-horizontal?
              (and (>= x 0) (< x width)))

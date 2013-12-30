@@ -8,6 +8,10 @@
                                   :wrap-horizontal? true
                                   :wrap-vertical? true
                                   :default-fn identity)]
+    (testing "width"
+      (is (= 10 (width grid))))
+    (testing "height"
+      (is (= 5 (height grid))))
     (testing "coordinate->field"
       (are [index coord] (= {:x (coord 0) :y (coord 1) :index index}
                             (coordinate->field grid coord))
