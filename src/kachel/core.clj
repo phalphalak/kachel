@@ -47,8 +47,10 @@
                 diff-y)]
         (prn [[from-x from-y] [to-x to-y] [diff-x diff-y] [x y]])
         (+ x y))
-      ;TODO
-      ))
+      (let [cost-fn (or cost-fn (constantly 1))
+            obstacle-fn (or obstacle-fn (constantly false))]
+        ;TODO implement (flood fill or A-star?)
+        )))
   (valid-coordinate? [_ [x y]]
     (and (or wrap-horizontal?
              (and (>= x 0) (< x width)))
