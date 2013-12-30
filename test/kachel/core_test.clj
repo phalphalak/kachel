@@ -5,9 +5,29 @@
 (deftest dense-square-grid-test
   (let [grid (dense-square-grid :width 10 :height 5 :default-fn identity)
         wrapped-grid (dense-square-grid :width 10 :height 5
-                                  :wrap-horizontal? true
-                                  :wrap-vertical? true
-                                  :default-fn identity)]
+                                        :wrap-horizontal? true
+                                        :wrap-vertical? true
+                                        :default-fn identity)]
+    (testing "distance"
+      (testing "for non-wrapped grid"
+        (are [dist from to]
+             (= dist (distance grid from to))
+             0 [2 3] [2 3]
+             1 [0 0] [0 1]
+             1 [0 0] [1 0]
+             2 [0 0] [1 1]
+             13 [9 4] [0 0]
+             2 [2 3] [33 104]))
+      (testing "for wrapped grid"
+        (are [dist from to]
+             (= dist (distance wrapped-grid from to))
+             0 [2 3] [2 3]
+             1 [0 0] [0 1]
+             1 [0 0] [1 0]
+             2 [0 0] [1 1]
+             2 [9 4] [0 0]
+             1 [0 2] [9 2]
+             1 [2 0] [2 4])))
     (testing "width"
       (is (= 10 (width grid))))
     (testing "height"
@@ -32,7 +52,7 @@
                [0 -1]))
         (testing "for wrapped grid"
           (are [index x y coord] (= {:x x :y y :index index}
-                                (coordinate->field wrapped-grid coord))
+                                    (coordinate->field wrapped-grid coord))
                0 0 0 [0 5]
                1 1 0 [1 5]
                0 0 0 [10 0]

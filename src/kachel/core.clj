@@ -6,6 +6,9 @@
 (def square-grid-directions #{:up :down :left :right})
 
 (defprotocol SquareGrid
+  (distance
+    [this from to]
+    [this from to distance-function])
   (width [this])
   (height [this])
   (coordinate->field [this coordinate])
@@ -27,6 +30,25 @@
   SquareGrid
   (width [_] width)
   (height [_] height)
+  (distance [this from to]
+    (distance this from to {:default true}))
+  (distance [this
+             [from-x from-y]
+             [to-x to-y]
+             {:keys [cost-fn obstacle-fn default]}]
+    (if default
+      (let [diff-x (mod (Math/abs (- from-x to-x)) width)
+            diff-y (mod (Math/abs (- from-y to-y)) height)
+            x (if wrap-horizontal?
+                (min diff-x (Math/abs (- width diff-x)))
+                diff-x)
+            y (if wrap-horizontal?
+                (min diff-y (Math/abs (- height diff-y)))
+                diff-y)]
+        (prn [[from-x from-y] [to-x to-y] [diff-x diff-y] [x y]])
+        (+ x y))
+      ;TODO
+      ))
   (valid-coordinate? [_ [x y]]
     (and (or wrap-horizontal?
              (and (>= x 0) (< x width)))
